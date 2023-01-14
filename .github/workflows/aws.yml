@@ -26,7 +26,7 @@ on:
 env:
   AWS_REGION: ap-southeast-1                             # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: rhb-insurance-ml-repository        # set this to your Amazon ECR repository name (just name, not url)
-  LAMBDA_FUNCTION_NAME: iv-video-analytics-backend   # set this to yout Lambda function name
+  LAMBDA_FUNCTION_NAME: rhb-insurance-ml-endpoint   # set this to yout Lambda function name
   S3_BUCKET: rhb-insurance-ml-bucket
 
 jobs:
@@ -80,8 +80,8 @@ jobs:
     ## create ecr, run this, create lambda
     ## uncomment this after the first run
 
-    # - name: Update Lambda function
-    #   id: update-function
-    #   env:
-    #     IMAGE_URI: ${{ steps.build-image.outputs.image }}
-    #   run: aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --image-uri $IMAGE_URI
+    - name: Update Lambda function
+      id: update-function
+      env:
+        IMAGE_URI: ${{ steps.build-image.outputs.image }}
+      run: aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --image-uri $IMAGE_URI
