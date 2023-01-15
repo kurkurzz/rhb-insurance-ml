@@ -61,12 +61,19 @@ async def fr_identify_obesity(file: UploadFile = File()):
 	probs = logits_per_image.softmax(dim=1) 
 
 	return {
-		'obese_probability': probs[0][0].item(),
+		'obesity_probability': probs[0][0].item(),
 	}
 
 @app.get('/risk-score', status_code=status.HTTP_200_OK)
-async def risk_score(age: int, is_smoker: bool, job_risk_proba: bool, has_existing_health_condition: bool, 
-	is_family_has_existing_health_condition: bool, request: Request):
+async def risk_score(
+		age: int,
+		job_title: str,
+		existing_condition: str,
+		family_history: str,
+		smoker: bool,
+		married: bool,
+		obesity_probability: float
+	):
 
 	risk_score = 0
 	if age >= 60:
